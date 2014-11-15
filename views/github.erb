@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Github Profiles v2</title>
+    <link href='github.css' rel='stylesheet'>
+  </head>
+
+  <body>
+    <form id='add_profile'>
+      <input id='username' placeholder='Enter your github username here'>
+      <button type='submit'>Load profile</button>
+    </form>
+
+  <!-- <div class='profile-container'></div> -->
+
+  <script src='https://code.jquery.com/jquery-2.0.3.min.js'></script>
+  <script src='javascript/mode.js'></script>
+  <script>
+  $(document).ready(function(){
+    $('#add_profile').on('submit', function(event){
+      event.preventDefault();
+      var url = 'https://api.github.com/users/' + $('#username').val();
+      var urlrepos = url + '/repos'
+      $.get(urlrepos, function(repos){
+        var languages = []
+        repos.forEach(function(repo){
+           languages.push(repo.language)
+        })
+        $('#repos').html('<h4>' + 'Fav Language: ' + mode(languages)  + '</h4>');
+      })
+      $.get(url, function(user){
+        $('<div class="profile"><div class="left"><img src="' + user.avatar_url + '"></div><div class="right"><h3><a href="' + user.html_url + '">' + user.login + '</a></h3><h4>Repos: ' + user.public_repos + '</h4><h4>Following: ' + user.following + '</h4><h4>Followers: ' + user.followers + '</h4><h4 id="repos"></h4></div><br clear="all"></div>').prependTo('.profile-container').slideDown();
+      }).fail(function(){
+        alert('Could not find the user called ' + $('#username').val());
+      }).always(function(){
+      $('#username').val('');
+    });
+  });
+  });
+  </script>
+
+  </body>
+</html>
+
+
+  <!-- // Github token: le9f99f1c54703fe6eb3c71c231f59560f99b91e3 -->
