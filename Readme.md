@@ -12,6 +12,7 @@ Search for active Github profiles by username and it will give you repo's, follo
 
 ### How to set it up
 ```sh
+git clone git@github.com:nikeshashar/git_fav_language.git
 cd unbox
 bundle install
 ```
